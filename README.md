@@ -1,5 +1,7 @@
 # React Flyweight Container
 
+[![npm version](https://badge.fury.io/js/react-flyweight.svg)](https://badge.fury.io/js/react-flyweight)
+
 Simple, lightweight flyweight container for your react apps.
 Clean up those `onClicks`.
 
