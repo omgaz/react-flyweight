@@ -13,27 +13,29 @@ const getClosestElement = (targetElement, selector) => {
 }
 
 const FlyweightContainer = ({
+  children,
   onClickDispatcher,
   onKeyDownDispatcher,
-  children,
   className,
   bindSelector,
 }) => {
   const onClick = ({ target }) => {
     onClickDispatcher(getClosestElement(target, bindSelector));
-  };
+  }
 
-  const onKeyPress = ({ target }) => {
+  const onKeyDown = ({ target }) => {
     onKeyDownDispatcher(getClosestElement(target, bindSelector));
-  };
+  }
 
-  return <div
-    className={["react-flyweight-container", className].join(" ").trim()}
-    {...{onClick: onClickDispatcher ? onClick : null}}
-    {...{onKeyDown: onKeyDownDispatcher ? onKeyDown : null}}
-  >
-    {children}
-  </div>;
+  return (
+    <div
+      className={["react-flyweight-container", className].join(" ").trim()}
+      {...{onClick: onClickDispatcher ? onClick : null}}
+      {...{onKeyDown: onKeyDownDispatcher ? onKeyDown : null}}
+    >
+      {children}
+    </div>
+  );
 }
 
 FlyweightContainer.propTypes = {
