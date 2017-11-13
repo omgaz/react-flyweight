@@ -1,21 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FlyweightContainer = ({ onClickDispatcher, children }) => {
-  const onClick = ({ target }) => {
-    if (!Object.keys(target.dataset).length) return;
-    onClickDispatcher(target.dataset);
-  };
-
-  return <div className="flyweight" onClick={onClick}>{children}</div>;
+const getClosestElement = (targetElement, selector) => {
+  if (targetElement.closest) { return targetElement.closest(selector); }
+  // otherwise polyfill
+  let el = targetElement;
+  do {
+    if (el.matches(selector)) return el;
+    el = el.parentElement;
+  } while (el !== null);
+  return null;
 }
 
-FlyweightContainer.props = {
+const FlyweightContainer = ({
+  onClickDispatcher,
+  onKeyDownDispatcher,
+  children,
+  className,
+  bindSelector,
+}) => {
+  const onClick = ({ target }) => {
+    onClickDispatcher(getClosestElement(target, bindSelector));
+  };
+
+  const onKeyPress = ({ target }) => {
+    onKeyDownDispatcher(getClosestElement(target, bindSelector));
+  };
+
+  return <div
+    className={["react-flyweight-container", className].join(" ").trim()}
+    {...{onClick: onClickDispatcher ? onClick : null}}
+    {...{onKeyDown: onKeyDownDispatcher ? onKeyDown : null}}
+  >
+    {children}
+  </div>;
+}
+
+FlyweightContainer.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]).isRequired,
-  onClickDispatcher: PropTypes.func.isRequired,
+  onClickDispatcher: PropTypes.func,
+  onKeyDownDispatcher: PropTypes.func,
+  className: PropTypes.string,
+  bindSelector: PropTypes.string.isRequired,
 };
 
 export default FlyweightContainer;
