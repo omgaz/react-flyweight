@@ -5,8 +5,10 @@ const getClosestElement = (targetElement, selector) => {
   if (targetElement.closest) { return targetElement.closest(selector); }
   // otherwise polyfill
   let el = targetElement;
+  // Internet Explorer implements element.matches, prefixed, under the non-standard name msMatchesSelector
+  const matches = el.matches ? 'matches' : 'msMatchesSelector';
   do {
-    if (el.matches(selector)) return el;
+    if (el[matches](selector)) return el;
     el = el.parentElement;
   } while (el !== null);
   return null;
