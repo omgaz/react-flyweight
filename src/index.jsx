@@ -21,12 +21,14 @@ const FlyweightContainer = ({
   className,
   bindSelector,
 }) => {
-  const onClick = ({ target }) => {
-    onClickDispatcher(getClosestElement(target, bindSelector));
+  const onClick = (event) => {
+    const { target } = event;
+    onClickDispatcher(getClosestElement(target, bindSelector), event);
   }
 
-  const onKeyDown = ({ target, which }) => {
-    onKeyDownDispatcher(getClosestElement(target, bindSelector), which);
+  const onKeyDown = (event) => {
+    const { target, which } = event;
+    onKeyDownDispatcher(getClosestElement(target, bindSelector), which, event);
   }
 
   return (
