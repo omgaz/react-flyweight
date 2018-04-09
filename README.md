@@ -4,9 +4,9 @@
 
 Simple, lightweight flyweight container for your react apps.
 
-Clean up those `event`s.
+Clean up those `event`s. Handle from a single top-level. No need to deeply pass function definitions down through components.
 
-`~1kb`, awesome.
+Leverages [DOM bubbling](https://javascript.info/bubbling-and-capturing).
 
 ### Usage
 
@@ -52,5 +52,6 @@ npm i --save react-flyweight
 
 `children` react child or children nodes.
 
-`className` any classnames to attach to the Flyweight container `div`. By default the component will have a `react-flyweight-container` class.
+`className` any classnames to attach to the Flyweight container `div` or custom root element (see below). By default the component will have a `react-flyweight-container` class.
 
+`rootElementTagName` any html element, as string, e.g "table", "section". By default the component will render as a `<div>`.
