@@ -14,13 +14,29 @@ const getClosestElement = (targetElement, selector) => {
   return null;
 }
 
-const FlyweightContainer = ({
-  children,
-  onClickDispatcher,
-  onKeyDownDispatcher,
-  className,
-  bindSelector,
-}) => {
+const FlyweightProps = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+  onClickDispatcher: PropTypes.func,
+  onKeyDownDispatcher: PropTypes.func,
+  className: PropTypes.string,
+  bindSelector: PropTypes.string.isRequired,
+  rootElementTagName: PropTypes.string,
+};
+
+const FlyweightContainer = (props) => {
+  const {
+    children,
+    onClickDispatcher,
+    onKeyDownDispatcher,
+    className,
+    bindSelector,
+    rootElementTagName,
+    ...passThroughProps, // anything else defined we just pass through e.g. style, data-*, id etc...
+  } = props;
+
   const onClick = (event) => {
     const { target } = event;
     onClickDispatcher(getClosestElement(target, bindSelector), event);
@@ -31,26 +47,24 @@ const FlyweightContainer = ({
     onKeyDownDispatcher(getClosestElement(target, bindSelector), which, event);
   }
 
+  const Component = rootElementTagName;
+
   return (
-    <div
+    <Component
       className={["react-flyweight-container", className].join(" ").trim()}
       {...{onClick: onClickDispatcher ? onClick : null}}
       {...{onKeyDown: onKeyDownDispatcher ? onKeyDown : null}}
+      {...passThroughProps}
     >
       {children}
-    </div>
+    </Component>
   );
 }
 
-FlyweightContainer.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,
-  onClickDispatcher: PropTypes.func,
-  onKeyDownDispatcher: PropTypes.func,
-  className: PropTypes.string,
-  bindSelector: PropTypes.string.isRequired,
-};
+FlyweightContainer.defaultProps = {
+  rootElementTagName: 'div',
+}
+
+FlyweightContainer.propTypes = FlyweightProps;
 
 export default FlyweightContainer;
