@@ -1,6 +1,17 @@
-# React Flyweight Container
+# DEPRECATED
+
+This library is now deprecated. It hasn't been actively maintained in a while, there are better ways of getting similar results through hooks and non-component based architecture.
+
+- Having an extra element breaks some accessibility use cases, as well as styling
+- React has moved on and hooks are probably a better way of going about this
+- The flyweight pattern is still beneficial to improve application performance and hope this library can aim to inspire
+
+An important part of OSS is admitting defeat :)
+
+## React Flyweight Container
 
 [![npm version](https://badge.fury.io/js/react-flyweight.svg)](https://badge.fury.io/js/react-flyweight)
+[![No Maintenance Intended](https://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 Simple, lightweight flyweight container for your react apps.
 
